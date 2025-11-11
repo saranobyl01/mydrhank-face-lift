@@ -39,7 +39,7 @@ export const Footer = () => {
 
           {/* Copyright */}
           <p className="text-xs text-center">
-            Copyright {currentYear} Dr. Hank All Rights Reserved
+            Copyright {currentYear} RxBloom All Rights Reserved
           </p>
         </div>
       </div>
