@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import logo from "../assets/drhank_logo.png"
+import logo from "../assets/rxbloom_logo.png"
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +21,7 @@ export const Header = () => {
             {/* Logo */}
             <div className="flex items-center">
               <a href="/" className="flex items-center gap-2">
-                <img src={logo} alt="MyDrHank Logo" className="h-10 w-auto" />
+                <img src={logo} alt="rxbloom Logo" className="h-10 w-auto" />
               </a>
             </div>
 
