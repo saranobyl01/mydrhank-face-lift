@@ -4,6 +4,7 @@ import { BenefitsGrid } from "@/components/BenefitsGrid";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { TrustSection } from "@/components/TrustSection";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <FeaturesSection />
       <HowItWorks />
       <TrustSection />
+      <Footer />
     </div>
   );
 };
