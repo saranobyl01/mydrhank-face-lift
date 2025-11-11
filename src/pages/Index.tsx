@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check, ShieldCheck, Package, Clock, DollarSign, Lock } from "lucide-react";
+import { Header } from "@/components/Header";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-subtle">
+      <Header />
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero text-white">
         <div className="container mx-auto px-4 py-20 md:py-32">
@@ -28,7 +31,7 @@ const Index = () => {
       </section>
 
       {/* Benefits Grid */}
-      <section className="container mx-auto px-4 -mt-16 relative z-10">
+      <section id="benefits" className="container mx-auto px-4 -mt-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {benefits.map((benefit, index) => (
             <Card 
@@ -78,7 +81,7 @@ const Index = () => {
       </section>
 
       {/* How It Works */}
-      <section className="bg-secondary/50 py-20">
+      <section id="how-it-works" className="bg-secondary/50 py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
