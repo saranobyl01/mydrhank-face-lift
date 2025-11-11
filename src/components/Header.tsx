@@ -1,9 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import logo from "../assets/rxbloom_logo.png"
+import logo from "../assets/rxbloom_logo.png";
 
-export const Header = () => {
+// Define the Product type for better type safety
+interface Product {
+  name: string;
+  ingredient: string;
+  description: string;
+  worksIn: string;
+  lastsUpTo: string;
+  image: string;
+  id: string; // Assuming id is present from Index.tsx
+}
+
+// Define props for Header component
+interface HeaderProps {
+  products: Product[];
+}
+
+export const Header = ({ products }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
 
@@ -46,27 +62,17 @@ export const Header = () => {
 
                 {isProductsOpen && (
                   <div className="absolute left-0 mt-2 w-48 bg-white border border-border rounded-lg shadow-soft">
-                    <a
-                      href="#product1"
-                      className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-smooth"
-                      onClick={() => setIsProductsOpen(false)}
-                    >
-                      Product 1
-                    </a>
-                    <a
-                      href="#product2"
-                      className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-smooth"
-                      onClick={() => setIsProductsOpen(false)}
-                    >
-                      Product 2
-                    </a>
-                    <a
-                      href="#product3"
-                      className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-smooth"
-                      onClick={() => setIsProductsOpen(false)}
-                    >
-                      Product 3
-                    </a>
+                    {/* Dynamically render products */}
+                    {products.map((product) => (
+                      <a
+                        key={product.id} // Use product.id for key
+                        href={`#${product.id}`} // Link to product ID
+                        className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-smooth"
+                        onClick={() => setIsProductsOpen(false)}
+                      >
+                        {product.name}
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>
@@ -108,27 +114,17 @@ export const Header = () => {
                     <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
                   </summary>
                   <div className="ml-4 mt-2 flex flex-col gap-2">
-                    <a
-                      href="#product1"
-                      className="text-foreground hover:text-primary"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Product 1
-                    </a>
-                    <a
-                      href="#product2"
-                      className="text-foreground hover:text-primary"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Product 2
-                    </a>
-                    <a
-                      href="#product3"
-                      className="text-foreground hover:text-primary"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Product 3
-                    </a>
+                    {/* Dynamically render products for mobile */}
+                    {products.map((product) => (
+                      <a
+                        key={product.id} // Use product.id for key
+                        href={`#${product.id}`} // Link to product ID
+                        className="text-foreground hover:text-primary"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {product.name}
+                      </a>
+                    ))}
                   </div>
                 </details>
 

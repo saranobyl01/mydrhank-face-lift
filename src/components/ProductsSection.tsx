@@ -3,36 +3,24 @@ import viagraImg from "@/assets/sildenafil.webp";
 import cialisImg from "@/assets/Tadalafil.webp";
 import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
 
-export const ProductsSection = () => {
-  const products = [
-    {
-      name: "Generic of Viagra®",
-      ingredient: "Sildenafil",
-      description:
-        "Contains the same active ingredient as Viagra® for up to 95% less.",
-      worksIn: "30–60 mins",
-      lastsUpTo: "4–6 hours",
-      image: viagraImg,
-    },
-    {
-      name: "Generic of Cialis®",
-      ingredient: "Tadalafil",
-      description:
-        "Contains the same active ingredient as Cialis® for up to 95% less.",
-      worksIn: "30–60 mins",
-      lastsUpTo: "36 hours",
-      image: cialisImg,
-    },
-    {
-      name: "Daily Generic of Cialis®",
-      ingredient: "Tadalafil",
-      description:
-        "Contains the same active ingredient as Viagra® to get hard for less.",
-      worksIn: "Always active",
-      lastsUpTo: "Always active",
-      image: dailyCialisImg,
-    },
-  ];
+// Define the Product type for better type safety
+interface Product {
+  name: string;
+  ingredient: string;
+  description: string;
+  worksIn: string;
+  lastsUpTo: string;
+  image: string;
+  id: string; // Assuming id is present from Index.tsx
+}
+
+// Define props for ProductsSection component
+interface ProductsSectionProps {
+  products: Product[];
+}
+
+export const ProductsSection = ({ products }: ProductsSectionProps) => {
+  // Removed local products definition as it's now passed as a prop
 
   return (
     <section className="py-20 bg-white">
@@ -50,9 +38,10 @@ export const ProductsSection = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product, index) => (
+          {/* Map over the products prop */}
+          {products.map((product) => (
             <div
-              key={index}
+              key={product.id} // Use product.id for key
               className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
             >
               {/* Product Image */}
@@ -99,7 +88,7 @@ export const ProductsSection = () => {
                   Get Started
                 </Button>
                 <a
-                  href="#"
+                  href={`#${product.id}`} // Link to product ID
                   className="text-sm text-gray-700 underline hover:text-gray-900"
                 >
                   Learn more
