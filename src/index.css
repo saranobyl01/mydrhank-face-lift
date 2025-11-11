@@ -2,85 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* 
+  Black & White Design System
+  All colors are grayscale in HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 13% 13%;
+    /* Core Colors */
+    --background: 0 0% 100%;        /* White */
+    --foreground: 0 0% 0%;          /* Black */
 
     --card: 0 0% 100%;
-    --card-foreground: 220 13% 13%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 13%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 211 100% 43%;
+    /* Primary (Black text/buttons) */
+    --primary: 0 0% 0%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 100% 97%;
-    --secondary-foreground: 220 13% 13%;
+    /* Secondary (Light gray background) */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Muted text and surfaces */
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 211 100% 50%;
+    /* Accent (Neutral Gray) */
+    --accent: 0 0% 20%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    /* Destructive (Dark Gray for errors) */
+    --destructive: 0 0% 30%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 211 100% 43%;
+    /* Borders and Inputs */
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 0%;
 
+    /* Radius and Shadows */
     --radius: 0.5rem;
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.1);
+    --shadow-medium: 0 4px 16px -4px hsl(0 0% 0% / 0.15);
 
-    --trust: 142 71% 45%;
-    --trust-foreground: 0 0% 100%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(211 100% 43%), hsl(211 100% 50%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 100% 99%));
-    
-    --shadow-soft: 0 2px 8px -2px hsl(220 13% 13% / 0.1);
-    --shadow-medium: 0 4px 16px -4px hsl(220 13% 13% / 0.15);
-    
+    /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Gradients (subtle grayscale) */
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 30%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 95%));
+
+    /* Trust (Neutralized to gray) */
+    --trust: 0 0% 20%;
+    --trust-foreground: 0 0% 100%;
   }
 
   .dark {
-    --background: 220 13% 13%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 220 13% 18%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 13% 18%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 211 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 220 13% 25%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 13% 25%;
-    --muted-foreground: 220 9% 65%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 211 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 0 0% 80%;
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 0% 40%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 25%;
-    --input: 220 13% 25%;
-    --ring: 211 100% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 100%;
 
-    --trust: 142 71% 45%;
-    --trust-foreground: 0 0% 100%;
+    --trust: 0 0% 60%;
+    --trust-foreground: 0 0% 0%;
   }
 }
 
@@ -93,3 +104,4 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+	
