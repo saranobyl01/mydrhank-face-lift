@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import legitScriptBadge from "@/assets/legit_script_certified.png"; // <-- Update path as needed
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,18 +24,18 @@ export const Footer = () => {
 
           {/* Links Row */}
           <div className="flex flex-wrap justify-center gap-4 text-xs md:text-sm">
-            <a href="/faq" className="hover:text-primary transition-colors">
+            <Link to="/faq" className="hover:text-primary transition-colors">
               Frequently Asked Questions
-            </a>
-            <a href="/privacy" className="hover:text-primary transition-colors">
+            </Link>
+            <Link to="/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
-            </a>
-            <a href="/terms" className="hover:text-primary transition-colors">
+            </Link>
+            <Link to="/terms" className="hover:text-primary transition-colors">
               Terms of Use
-            </a>
-            <a href="/privacy-choices" className="hover:text-primary transition-colors">
+            </Link>
+            <Link to="/privacy" className="hover:text-primary transition-colors">
               Your Privacy Choices
-            </a>
+            </Link>
           </div>
 
           {/* Copyright */}

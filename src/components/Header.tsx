@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import logo from "../assets/rxbloom_logo.png";
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 // Define the Product type for better type safety
 interface Product {
@@ -26,12 +27,12 @@ export const Header = ({ products }: HeaderProps) => {
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-trust text-trust-foreground py-4 px-4 text-center text-lg font-medium">
+      <div className="bg-trust text-trust-foreground py-4 px-4 text-center text-lg font-medium sticky top-0 z-50">
         <p>20% Off First Order Code: 20FIRST</p>
       </div>
 
       {/* Main Header */}
-      <header className="bg-white border-b border-border sticky top-0 z-50 shadow-soft">
+      <header className="bg-white border-b border-border shadow-soft">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -64,28 +65,32 @@ export const Header = ({ products }: HeaderProps) => {
                   <div className="absolute left-0 mt-2 w-48 bg-white border border-border rounded-lg shadow-soft">
                     {/* Dynamically render products */}
                     {products.map((product) => (
-                      <a
+                      <Link
                         key={product.id} // Use product.id for key
-                        href={`#${product.id}`} // Link to product ID
+                        to={`/products/${product.id}`} // Link to product detail page
                         className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-smooth"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        {product.name}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <a
-                href="#faq"
-                className="text-foreground hover:text-primary transition-smooth"
+                onClick={() => {
+                  setIsProductsOpen(false);
+                  setIsMenuOpen(false); // Close mobile menu if open
+                }}
               >
-                Contact Support
-              </a>
+                {product.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
 
-              
-            </nav>
+      <Link
+        to="/contact-support" // Link to Contact Support page
+        className="text-foreground hover:text-primary transition-smooth"
+        onClick={() => setIsMenuOpen(false)} // Close mobile menu if open
+      >
+        Contact Support
+      </Link>
+
+      
+    </nav>
 
             {/* Mobile Menu Button */}
             <button
@@ -116,25 +121,25 @@ export const Header = ({ products }: HeaderProps) => {
                   <div className="ml-4 mt-2 flex flex-col gap-2">
                     {/* Dynamically render products for mobile */}
                     {products.map((product) => (
-                      <a
+                      <Link
                         key={product.id} // Use product.id for key
-                        href={`#${product.id}`} // Link to product ID
+                        to={`/products/${product.id}`} // Link to product detail page
                         className="text-foreground hover:text-primary"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {product.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </details>
 
-                <a
-                  href="#faq"
+                <Link
+                  to="/#faq" // Link to FAQ section
                   className="text-foreground hover:text-primary transition-smooth py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact Support
-                </a>
+                </Link>
 
                 
               </div>

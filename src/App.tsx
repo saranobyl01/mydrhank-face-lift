@@ -5,6 +5,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ProductDetails from "./components/ProductDetails";
+import ContactSupportPage from "./components/ContactSupportPage"; // Import the new page component
+import FaqPage from "./components/FaqPage"; // Import the FAQ page component
+import TermsOfUsePage from "./components/TermsOfUsePage"; // Import the Terms of Use page component
+import PrivacyPolicyPage from "./components/PrivacyPolicyPage"; // Import the Privacy Policy page component
 
 const queryClient = new QueryClient();
 
@@ -16,6 +21,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/contact-support" element={<ContactSupportPage />} /> {/* Route for Contact Support page */}
+          <Route path="/faq" element={<FaqPage />} /> {/* Route for FAQ page */}
+          <Route path="/terms" element={<TermsOfUsePage />} /> {/* Route for Terms of Use page */}
+          <Route path="/privacy" element={<PrivacyPolicyPage />} /> {/* Route for Privacy Policy page */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

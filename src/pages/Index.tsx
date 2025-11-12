@@ -10,7 +10,7 @@ import cialisImg from "@/assets/Tadalafil.webp";
 import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
 
 // Define product data here to be shared between Header and ProductsSection
-const productsData = [
+export const productsData = [
   {
     name: "Generic of Viagra®",
     ingredient: "Sildenafil",

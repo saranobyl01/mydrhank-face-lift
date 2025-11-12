@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import viagraImg from "@/assets/sildenafil.webp";
 import cialisImg from "@/assets/Tadalafil.webp";
 import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
+// import { Link } from 'react-router-dom'; // Removed Link import as it's no longer used for navigation here
 
 // Define the Product type for better type safety
 interface Product {
