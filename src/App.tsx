@@ -7,9 +7,9 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProductDetails from "./components/ProductDetails";
 import ContactSupportPage from "./components/ContactSupportPage"; // Import the new page component
-import FaqPage from "./components/FaqPage"; // Import the FAQ page component
-import TermsOfUsePage from "./components/TermsOfUsePage"; // Import the Terms of Use page component
-import PrivacyPolicyPage from "./components/PrivacyPolicyPage"; // Import the Privacy Policy page component
+import FaqPage from "./pages/FaqPage"; // Import the FAQ page component
+import TermsOfUsePage from "./pages/TermsOfUsePage"; // Import the Terms of Use page component
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"; // Import the Privacy Policy page component
 
 const queryClient = new QueryClient();
 
