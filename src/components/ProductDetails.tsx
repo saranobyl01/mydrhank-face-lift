@@ -1,76 +1,147 @@
-// src/pages/ProductDetails.tsx
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { productsData } from '../pages/Index';
-import viagraImage from '@/assets/sildenafil.webp';
-import cialisImage from '@/assets/Tadalafil.webp';
-import dailyCialisImage from '@/assets/Daily-tadalafil.webp';
-import { Check, Clock, DollarSign, ChevronDown } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import viagraImage from "@/assets/sildenafil.webp";
+import cialisImage from "@/assets/Tadalafil.webp";
+import dailyCialisImage from "@/assets/Daily-tadalafil.webp";
+import { Check, Clock, DollarSign } from "lucide-react";
 import { HowItWorks } from "./HowItWorks";
-import viagraHandImage from '@/assets/sildenafil_hand.webp';     
-import cialisHandImage from '@/assets/Tadalafil_hand.webp';        
-import dailyCialisHandImage from '@/assets/Daily-tadalafil_hand.webp'; 
+import viagraHandImage from "@/assets/sildenafil_hand.webp";
+import cialisHandImage from "@/assets/Tadalafil_hand.webp";
+import dailyCialisHandImage from "@/assets/Daily-tadalafil_hand.webp";
 import { FaqSection } from "./FaqSection";
 
-const productImageMap: { [key: string]: string } = {
-  viagra: viagraImage,
-  cialis: cialisImage,
-  'daily-cialis': dailyCialisImage,
-};
+interface ApiProduct {
+  product_id: number;
+  product_name: string;
+  price: string;
+  sku: string;
+  category_name: string;
+  image: string | null;
+}
 
 interface Product {
+  id: string;
   name: string;
   ingredient: string;
   description: string;
   worksIn: string;
   lastsUpTo: string;
   image: string;
-  id: string;
+  price: string;
 }
 
-interface ExploreMoreEDProps {
-  currentProductId: string;
-  allProducts: Product[];
-}
+const productImageMap: { [key: string]: string } = {
+  viagra: viagraImage,
+  cialis: cialisImage,
+  "daily-cialis": dailyCialisImage,
+};
+
+const handImageMap: { [key: string]: string } = {
+  viagra: viagraHandImage,
+  cialis: cialisHandImage,
+  "daily-cialis": dailyCialisHandImage,
+};
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      const found = productsData.find(p => p.id === id);
-      if (found) {
-        setProduct({
-          ...found,
-          image: productImageMap[found.id] || '',
+    async function fetchProducts() {
+      try {
+        const cialisResponse = await fetch(
+          "https://panel.ravinimavat.com/rxbloom/api/get_all_cialis"
+        );
+        const viagraResponse = await fetch(
+          "https://panel.ravinimavat.com/rxbloom/api/get_all_viagra"
+        );
+        const [cialisData, viagraData] = await Promise.all([
+          cialisResponse.json(),
+          viagraResponse.json(),
+        ]);
+
+        const mapApiProduct = (apiProd: ApiProduct): Product => ({
+          id: apiProd.product_id.toString(),
+          name: apiProd.product_name,
+          ingredient: "", // Optional: parse from product_name if needed
+          description: apiProd.category_name,
+          worksIn: "", // Unknown from API, set blank or default
+          lastsUpTo: "", // Unknown from API, set blank or default
+          image: apiProd.image || "", // Use empty string as fallback
+          price: apiProd.price,
         });
+
+        const combinedProducts = [
+          ...cialisData.data.map(mapApiProduct),
+          ...viagraData.data.map(mapApiProduct),
+        ];
+
+        setProducts(combinedProducts);
+
+        if (id) {
+          const found = combinedProducts.find((p) => p.id === id);
+          if (found) {
+            // Provide hand image if product matches known ids for visual
+            setProduct({
+              ...found,
+              image: found.image || productImageMap[found.id] || "",
+            });
+          }
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setLoading(false);
       }
     }
+
+    fetchProducts();
   }, [id]);
 
-  if (!product) {
+  if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Header products={productsData} />
+        <Header products={products} />
         <div className="container mx-auto p-8 text-center flex-grow">
-          {id ? `Loading product ${id}...` : 'Product not found.'}
+          Loading product details...
         </div>
         <Footer />
       </div>
     );
   }
 
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header products={products} />
+        <div className="container mx-auto p-8 text-center flex-grow">
+          Product not found.
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const handImg = handImageMap[product.id] || "";
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header products={productsData} />
+      <Header products={products} />
 
-      {/* ---------- Breadcrumb ---------- */}
+      {/* Breadcrumb */}
       <div className="container mx-auto px-4 pt-6">
         <Link
           to="/"
@@ -80,11 +151,10 @@ const ProductDetails: React.FC = () => {
         </Link>
       </div>
 
-      {/* ---------- Main Grid ---------- */}
+      {/* Main Grid */}
       <div className="container mx-auto px-4 py-8 flex-grow max-w-5xl">
         <div className="grid md:grid-cols-2 gap-12 items-start">
-
-          {/* ---------- Left: Pill Image ---------- */}
+          {/* Left: Pill Image */}
           <div className="flex justify-center md:justify-end items-center">
             <img
               src={product.image}
@@ -93,13 +163,11 @@ const ProductDetails: React.FC = () => {
             />
           </div>
 
-          {/* ---------- Right: Content ---------- */}
+          {/* Right: Content */}
           <div className="space-y-8">
-
-            {/* Title */}
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-                Generic of {product.name}
+                {product.name}
               </h1>
               <p className="text-lg text-muted-foreground mt-1">
                 {product.ingredient}
@@ -114,15 +182,11 @@ const ProductDetails: React.FC = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-trust flex-shrink-0" />
-                <span className="text-foreground">
-                  Lasts up to {product.lastsUpTo}
-                </span>
+                <span className="text-foreground">Lasts up to {product.lastsUpTo}</span>
               </li>
               <li className="flex items-center gap-3">
                 <DollarSign className="w-5 h-5 text-trust flex-shrink-0" />
-                <span className="text-foreground">
-                  From only $1.66 per pill
-                </span>
+                <span className="text-foreground">Price: ${product.price}</span>
               </li>
             </ul>
 
@@ -131,25 +195,21 @@ const ProductDetails: React.FC = () => {
               asChild
               className="w-full md:w-auto bg-black text-white rounded-full px-8 py-6 text-lg hover:bg-gray-900 transition"
             >
-              <Link to="/consultation">
-                Order {product.ingredient.split(' ')[0]} →
-              </Link>
+              <Link to="/consultation">Order Now →</Link>
             </Button>
 
-            {/* ---------- FAQ Accordion ---------- */}
+            {/* FAQ Accordion */}
             <div className="mt-12 space-y-2">
               <Accordion type="single" collapsible defaultValue="">
-                {/* What is */}
                 <AccordionItem value="what-is" className="border-b border-gray-200">
                   <AccordionTrigger className="py-4 text-base font-medium text-foreground hover:text-primary">
-                    What is {product.ingredient}?
+                    What is {product.ingredient || product.name}?
                   </AccordionTrigger>
                   <AccordionContent className="pb-4 text-muted-foreground">
                     {product.description}
                   </AccordionContent>
                 </AccordionItem>
 
-                {/* Right for me */}
                 <AccordionItem value="right-for-me" className="border-b border-gray-200">
                   <AccordionTrigger className="py-4 text-base font-medium text-foreground hover:text-primary">
                     Is {product.name} right for me?
@@ -159,234 +219,25 @@ const ProductDetails: React.FC = () => {
                   </AccordionContent>
                 </AccordionItem>
 
-                {/* Prescription */}
                 <AccordionItem value="prescription" className="border-b border-gray-200">
                   <AccordionTrigger className="py-4 text-base font-medium text-foreground hover:text-primary">
-                    Do I need a prescription to get {product.ingredient}?
+                    Do I need a prescription to get {product.ingredient || product.name}?
                   </AccordionTrigger>
                   <AccordionContent className="pb-4 text-muted-foreground">
-                    Yes, {product.ingredient} is a prescription medication and requires a doctor's prescription to obtain.
+                    Yes, {product.ingredient || product.name} is a prescription medication and requires a doctor's prescription to obtain.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </div>
-
           </div>
         </div>
       </div>
-      <StatsCarousel />
-      <WhyGenericSection product={product} />
+
+      {/* Additional Sections */}
       <HowItWorks />
-      <ExploreMoreED currentProductId={product.id} allProducts={productsData} />
       <FaqSection />
       <Footer />
     </div>
-  );
-};
-
-const StatsCarousel = () => {
-  const stats = [
-    { percent: "88%", text: "of men find success with generic Viagra®" },
-    { percent: "52%", text: "of men 40‑70 years old have some level of ED" },
-    { percent: "82%", text: "of men find success with generic Cialis®" },
-    { percent: "12,000+", text: "RxBloom patients treated successfully" },
-  ];
-
-  // Duplicate **twice** for a seamless loop (you can add more if you want)
-  const duplicated = [...stats, ...stats, ...stats];
-
-  // Total width of ONE original set (4 cards)
-  const itemWidth = 12;   // w-48 = 12rem
-  const gap = 3;          // gap-12 = 3rem
-  const oneSetWidth = (itemWidth + gap) * stats.length; // 60rem for 4 items
-
-  return (
-    <div className="mt-16 py-12 bg-white overflow-hidden">
-      {/* Half‑screen centered container */}
-      <div className="flex justify-center">
-        <div className="w-full max-w-xl overflow-hidden">
-          <motion.div
-            className="flex gap-12"
-            animate={{ x: [0, `-${oneSetWidth}rem`] }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 12,          // adjust speed here
-                ease: "linear",
-              },
-            }}
-            style={{ width: `${duplicated.length * (itemWidth + gap)}rem` }}
-          >
-            {duplicated.map((stat, i) => (
-              <div
-                key={i}
-                className="flex-shrink-0 w-48 flex flex-col items-center text-center"
-              >
-                <h3 className="text-5xl md:text-6xl font-bold text-foreground mb-2">
-                  {stat.percent}
-                </h3>
-                <div className="w-16 h-px bg-muted-foreground/30 mb-3" />
-                <p className="text-base md:text-lg text-muted-foreground">
-                  {stat.text}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const WhyGenericSection = ({ product }: { product: Product }) => {
-  // Map product.id → hand image
-  const handImageMap: Record<string, string> = {
-    viagra: viagraHandImage,
-    cialis: cialisHandImage,
-    "daily-cialis": dailyCialisHandImage,
-  };
-
-  const handImg = handImageMap[product.id] || "";
-
-  return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-
-          {/* LEFT – Text */}
-          <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Why {product.name}
-            </h2>
-
-            {/* Proven Results */}
-            <div>
-              <h3 className="text-lg font-semibold text-primary mb-2">
-                Proven Results
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {product.name} ({product.ingredient}) works just like the brand‑name version,
-                helping you get and maintain stronger erections when you need them.
-              </p>
-            </div>
-
-            {/* FDA‑Approved & Safe */}
-            <div>
-              <h3 className="text-lg font-semibold text-primary mb-2">
-                FDA‑Approved & Safe
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                It’s the same active ingredient as {product.name}, prescribed by licensed providers and
-                shipped directly from U.S. pharmacies.
-              </p>
-            </div>
-
-            {/* Affordable & Discreet */}
-            <div>
-              <h3 className="text-lg font-semibold text-primary mb-2">
-                Affordable & Discreet
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Enjoy the same results at a fraction of the cost—with treatment starting at just $1.66 per
-                pill, delivered to your door in discreet packaging.
-              </p>
-            </div>
-          </div>
-
-          {/* RIGHT – Hand with pill */}
-          <div className="flex justify-center md:justify-start">
-            <img
-              src={handImg}
-              alt={`${product.name} in hand`}
-              className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-lg"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ExploreMoreED = ({ currentProductId, allProducts }: ExploreMoreEDProps) => {
-  // Filter out the current product
-  const otherProducts = allProducts.filter(p => p.id !== currentProductId);
-
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4 max-w-5xl text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-          Explore More ED Options
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
-          {otherProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              {/* Pill image + title */}
-              <div className="flex flex-col items-center mb-4">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 mb-3 object-contain"
-                />
-                <h3 className="text-lg font-semibold text-foreground">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-muted-foreground">{product.ingredient}</p>
-              </div>
-
-              {/* Description */}
-              <p className="text-sm text-muted-foreground mb-4">
-                {product.id === "viagra"
-                  ? "Contains the same active ingredient as Viagra® for up to 95% less."
-                  : product.id === "cialis"
-                  ? "Contains the same active ingredient as Cialis® to get hard for less."
-                  : "Get stronger, quicker results with this fast‑acting combo"}
-              </p>
-
-              {/* Works in / Lasts up to */}
-              <div className="flex justify-center gap-4 mb-6">
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
-                    Works in
-                  </span>
-                  <span className="block text-sm font-medium bg-gray-100 px-3 py-1 rounded-full mt-1">
-                    {product.worksIn}
-                  </span>
-                </div>
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
-                    Lasts up to
-                  </span>
-                  <span className="block text-sm font-medium bg-gray-100 px-3 py-1 rounded-full mt-1">
-                    {product.lastsUpTo}
-                  </span>
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex gap-3 justify-center">
-                <Button
-                  asChild
-                  className="bg-black text-white rounded-full px-6 py-2 text-sm hover:bg-gray-900"
-                >
-                  <Link to="/consultation">Get Started</Link>
-                </Button>
-                <Link
-                  to={`/product/${product.id}`}
-                  className="text-sm text-muted-foreground underline hover:text-foreground"
-                >
-                  Learn more
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 };
 

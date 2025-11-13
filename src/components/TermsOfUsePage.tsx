@@ -2,12 +2,12 @@
 import React from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { productsData } from '@/pages/Index';
+// import { productsData } from '@/pages/Index';
 
 const TermsOfUsePage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header products={productsData} />
+      {/* <Header products={productsData} /> */}
 
       {/* Main Content */}
       <article className="container mx-auto px-4 py-12 flex-grow max-w-4xl">

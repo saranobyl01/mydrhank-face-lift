@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { ProductsSection } from "@/components/ProductsSection";
@@ -5,52 +6,68 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { TestimonialsSection } from "@/components/TestimonialSection";
 import { FaqSection } from "@/components/FaqSection";
 import { Footer } from "@/components/Footer";
-import viagraImg from "@/assets/sildenafil.webp";
-import cialisImg from "@/assets/Tadalafil.webp";
-import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
 
-// Define product data here to be shared between Header and ProductsSection
-export const productsData = [
-  {
-    name: "Generic of Viagra®",
-    ingredient: "Sildenafil",
-    description:
-      "Contains the same active ingredient as Viagra® for up to 95% less.",
-    worksIn: "30–60 mins",
-    lastsUpTo: "4–6 hours",
-    image: viagraImg,
-    id: "viagra", // Added for unique identifier
-  },
-  {
-    name: "Generic of Cialis®",
-    ingredient: "Tadalafil",
-    description:
-      "Contains the same active ingredient as Cialis® for up to 95% less.",
-    worksIn: "30–60 mins",
-    lastsUpTo: "36 hours",
-    image: cialisImg,
-    id: "cialis", // Added for unique identifier
-  },
-  {
-    name: "Daily Generic of Cialis®",
-    ingredient: "Tadalafil",
-    description:
-      "Contains the same active ingredient as Viagra® to get hard for less.",
-    worksIn: "Always active",
-    lastsUpTo: "Always active",
-    image: dailyCialisImg,
-    id: "daily-cialis", // Added for unique identifier
-  },
-];
+interface ApiProduct {
+  product_id: number;
+  product_name: string;
+  price: string;
+  sku: string;
+  category_name: string;
+  image: string | null;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  ingredient: string; // Since API doesn't provide explicitly, you can parse from product_name or leave blank
+  description: string; // Give a default description or parse as needed
+  worksIn: string; // Unknown from API, can be set to empty or static
+  lastsUpTo: string; // Unknown from API, can be set to empty or static
+  image: string | null;
+  price: string;
+}
 
 const Index = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const cialisResponse = await fetch("https://panel.ravinimavat.com/rxbloom/api/get_all_cialis");
+        const viagraResponse = await fetch("https://panel.ravinimavat.com/rxbloom/api/get_all_viagra");
+        const [cialisData, viagraData] = await Promise.all([cialisResponse.json(), viagraResponse.json()]);
+
+        // Helper to map API product to internal format
+        const mapApiProduct = (apiProd: ApiProduct): Product => ({
+          id: apiProd.product_id.toString(),
+          name: apiProd.product_name,
+          ingredient: "", // Optional: you could parse out ingredient from product_name if needed
+          description: apiProd.category_name,
+          worksIn: "", // Not available in API
+          lastsUpTo: "", // Not available in API
+          image: apiProd.image, // null if no image, you can optionally use a placeholder
+          price: apiProd.price,
+        });
+
+        const combinedProducts = [
+          ...cialisData.data.map(mapApiProduct),
+          ...viagraData.data.map(mapApiProduct),
+        ];
+
+        setProducts(combinedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
-      {/* Pass productsData to Header */}
-      <Header products={productsData} />
+      <Header products={products} />
       <HeroSection />
-      {/* Pass productsData to ProductsSection */}
-      <ProductsSection products={productsData} />
+      <ProductsSection products={products} />
       <HowItWorks />
       <TestimonialsSection />
       <FaqSection />
