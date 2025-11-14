@@ -534,7 +534,6 @@ const QuestionnairePage: React.FC = () => {
               aria-label="Open calendar"
               style={{ background: "none", border: "none", outline: "none" }}
             >
-              <CalendarIcon />
             </button>
           </div>
           <button
