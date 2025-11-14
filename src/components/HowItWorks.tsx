@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import howItWorksImg from "@/assets/rxbloom_howitworks_image.png"; // you'll add your image here
+import { useNavigate } from "react-router-dom";
 
 export const HowItWorks = () => {
+  const navigate = useNavigate(); 
   const steps = [
     {
       number: "1",
@@ -60,7 +62,9 @@ export const HowItWorks = () => {
             ))}
 
             {/* Button */}
-            <Button className="bg-gray-900 text-white px-8 py-3 rounded-full text-base mt-6 hover:bg-gray-800 transition">
+            <Button className="bg-gray-900 text-white px-8 py-3 rounded-full text-base mt-6 hover:bg-gray-800 transition"
+            onClick={() => navigate("/questions")}
+            >
               Find My Treatment
             </Button>
           </div>

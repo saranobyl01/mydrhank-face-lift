@@ -2,8 +2,9 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Header } from './Header';
+import { productsData } from '@/pages/Index';
 
 // Assuming productsData is needed for the Header, though not directly used on this page
 // import { productsData } from '@/pages/Index';
@@ -11,7 +12,7 @@ import { Footer } from '@/components/Footer';
 const ContactSupportPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header products={productsData} /> {/* Include Header */}
+      <Header products={productsData} /> 
       <div className="container mx-auto p-8 flex-grow"> {/* Added flex-grow to push footer down */}
         <h1 className="text-4xl font-bold mb-6 text-center">Contact Support</h1>
         <p className="text-lg text-gray-600 mb-8 text-center">

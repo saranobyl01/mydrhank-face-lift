@@ -358,7 +358,7 @@ const QuestionnairePage: React.FC = () => {
               </div>
               <div className="text-xs text-gray-500 text-center mb-2">Trusted by thousands of patients</div>
               <div className="italic text-gray-700 text-center mb-2">
-                "MyDrHank has been great. I started noticing results right away, and it gave me a real boost of confidence. For anyone hesitant to try ED meds — they work!"
+                "RxBloom has been great. I started noticing results right away, and it gave me a real boost of confidence. For anyone hesitant to try ED meds — they work!"
               </div>
               <div className="text-xs text-gray-400 text-right w-full">&mdash; Charlie, USA</div>
             </div>
