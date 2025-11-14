@@ -43,6 +43,7 @@ const ProductDetails: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (id) {
       const found = productsData.find(p => p.id === id);
       if (found) {
@@ -131,7 +132,7 @@ const ProductDetails: React.FC = () => {
               asChild
               className="w-full md:w-auto bg-black text-white rounded-full px-8 py-6 text-lg hover:bg-gray-900 transition"
             >
-              <Link to="/consultation">
+              <Link to="/questions">
                 Order {product.ingredient.split(' ')[0]} →
               </Link>
             </Button>
@@ -376,7 +377,7 @@ const ExploreMoreED = ({ currentProductId, allProducts }: ExploreMoreEDProps) =>
                   <Link to="/questions">Get Started</Link>
                 </Button>
                 <Link
-                  to={`/product/${product.id}`}
+                  to={`/products/${product.id}`}
                   className="text-sm text-muted-foreground underline hover:text-foreground"
                 >
                   Learn more

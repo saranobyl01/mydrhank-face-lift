@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import viagraImg from "@/assets/sildenafil.webp";
 import cialisImg from "@/assets/Tadalafil.webp";
 import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -94,12 +94,12 @@ export const ProductsSection = ({ products }: ProductsSectionProps) => {
                 onClick={() => navigate("/questions")}>
                   Get Started
                 </Button>
-                <a
-                  href={`#${product.id}`} // Link to product ID
+                <Link
+                  to={`/products/${product.id}`} // Link to product ID
                   className="text-sm text-gray-700 underline hover:text-gray-900"
                 >
                   Learn more
-                </a>
+                </Link>
               </div>
             </div>
           ))}
