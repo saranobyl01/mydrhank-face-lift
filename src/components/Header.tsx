@@ -134,7 +134,7 @@ export const Header = ({ products }: HeaderProps) => {
                 </details>
 
                 <Link
-                  to="/#faq" // Link to FAQ section
+                  to="/contact-support" // Link to FAQ section
                   className="text-foreground hover:text-primary transition-smooth py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >

@@ -6,8 +6,6 @@ import { Footer } from '@/components/Footer';
 import { Header } from './Header';
 import { productsData } from '@/pages/Index';
 
-// Assuming productsData is needed for the Header, though not directly used on this page
-// import { productsData } from '@/pages/Index';
 
 const ContactSupportPage: React.FC = () => {
   return (
