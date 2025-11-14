@@ -10,6 +10,7 @@ import ContactSupportPage from "./components/ContactSupportPage"; // Import the 
 import FaqPage from "./pages/FaqPage"; // Import the FAQ page component
 import TermsOfUsePage from "./pages/TermsOfUsePage"; // Import the Terms of Use page component
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"; // Import the Privacy Policy page component
+import QuestionnairePage from "./components/questionnaire/QuestionnairePage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,9 @@ const App = () => (
           <Route path="/faq" element={<FaqPage />} /> {/* Route for FAQ page */}
           <Route path="/terms" element={<TermsOfUsePage />} /> {/* Route for Terms of Use page */}
           <Route path="/privacy" element={<PrivacyPolicyPage />} /> {/* Route for Privacy Policy page */}
+          <Route path="/questions" element={<QuestionnairePage />} />
+          <Route path="/questions/:questionId" element={<QuestionnairePage />} />
+          {/* Legacy routes - redirect to question format */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

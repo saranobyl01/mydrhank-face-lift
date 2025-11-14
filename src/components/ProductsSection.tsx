@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import viagraImg from "@/assets/sildenafil.webp";
 import cialisImg from "@/assets/Tadalafil.webp";
 import dailyCialisImg from "@/assets/Daily-tadalafil.webp";
+import { useNavigate } from "react-router-dom";
+
+
+
 // import { Link } from 'react-router-dom'; // Removed Link import as it's no longer used for navigation here
 
 // Define the Product type for better type safety
@@ -22,6 +26,7 @@ interface ProductsSectionProps {
 
 export const ProductsSection = ({ products }: ProductsSectionProps) => {
   // Removed local products definition as it's now passed as a prop
+  const navigate = useNavigate();
 
   return (
     <section className="py-20 bg-white">
@@ -85,7 +90,8 @@ export const ProductsSection = ({ products }: ProductsSectionProps) => {
 
               {/* Buttons */}
               <div className="flex gap-4 items-center justify-center">
-                <Button className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-900 transition">
+                <Button className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-900 transition"
+                onClick={() => navigate("/questions")}>
                   Get Started
                 </Button>
                 <a

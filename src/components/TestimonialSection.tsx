@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const TestimonialsSection = () => {
+  const navigate = useNavigate();
   const testimonials = [
     {
       quote:
@@ -49,7 +51,9 @@ export const TestimonialsSection = () => {
             <p className="text-gray-600 text-lg mb-8">
               Join our 12,000+ happy members
             </p>
-            <Button className="bg-gray-900 text-white px-10 py-3 rounded-full text-base hover:bg-gray-800 transition">
+            <Button className="bg-gray-900 text-white px-10 py-3 rounded-full text-base hover:bg-gray-800 transition"
+              onClick={() => navigate("/questions")}
+            >
               Get Started
             </Button>
           </div>

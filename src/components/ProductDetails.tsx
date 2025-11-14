@@ -373,7 +373,7 @@ const ExploreMoreED = ({ currentProductId, allProducts }: ExploreMoreEDProps) =>
                   asChild
                   className="bg-black text-white rounded-full px-6 py-2 text-sm hover:bg-gray-900"
                 >
-                  <Link to="/consultation">Get Started</Link>
+                  <Link to="/questions">Get Started</Link>
                 </Button>
                 <Link
                   to={`/product/${product.id}`}

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
   const benefits = [
@@ -9,6 +10,7 @@ export const HeroSection = () => {
     "Free consultation",
     "Discreet delivery",
   ];
+  const navigate = useNavigate();
 
   return (
     <section className="bg-[#f5f7f9] text-[#1b1e23] py-16 md:py-24">
@@ -26,6 +28,7 @@ export const HeroSection = () => {
           <Button
             size="lg"
             className="bg-[#1b1e23] text-white hover:bg-[#2b2f35] text-lg px-8 py-6 rounded-full transition-smooth"
+            onClick={() => navigate("/questions")}
           >
             Get Started
           </Button>
